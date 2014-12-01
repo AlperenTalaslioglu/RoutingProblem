@@ -33,8 +33,7 @@ public class HeuristicAlgorithm {
 		this.distances = new double[numberOfNodes][numberOfNodes];
 		this.coordinates = reader.getCoordinates();
 		this.maximumAttributeCoverage = new int[reader.getNumberOfAttributes()];
-		this.reachableNodesByAttributesTable = new HashSet[reader
-				.getNumberOfAttributes()];
+		this.reachableNodesByAttributesTable = new HashSet[reader.getNumberOfAttributes()];
 		this.routes = new ArrayList[this.numberOfVehicles];
 	}
 
@@ -46,17 +45,7 @@ public class HeuristicAlgorithm {
 			step2();
 			step3();
 			step4();
-		}
-		//
-		//
-		//
-		// System.out.println(routes[0].toString());
-		//
-		//
-		// for(int i = 0; i<maximumAttributeCoverage.length; i++){
-		// System.out.print(maximumAttributeCoverage[i] + " ");
-		// }
-
+		}		
 	}
 
 	private boolean isRouteFeasible(ArrayList route) {
@@ -67,11 +56,9 @@ public class HeuristicAlgorithm {
 					(int) route.get(route.size() - 1));
 		} else {
 			routeTime = calculateDistanceBetween(nodeZ, (int) route.get(0));
-			routeTime += calculateDistanceBetween(nodeZ,
-					(int) route.get(route.size() - 1));
+			routeTime += calculateDistanceBetween(nodeZ,(int) route.get(route.size() - 1));
 			for (int i = 0; i < route.size() - 1; i++) {
-				routeTime += calculateDistanceBetween((int) route.get(i),
-						(int) route.get(i + 1));
+				routeTime += calculateDistanceBetween((int) route.get(i),(int) route.get(i + 1));
 			}
 		}
 
@@ -82,6 +69,22 @@ public class HeuristicAlgorithm {
 		}
 	}
 
+	private void step5() {
+		this.nodeZ = 0;
+		this.vehicle += 1;
+		if(vehicle > numberOfVehicles){
+			return;
+		}else{
+			this.routes[(vehicle - 1)] = new ArrayList();
+			Arrays.fill(maximumAttributeCoverage, 0);
+			Arrays.fill(maximumAttributeCoverage, 0);
+			Arrays.fill(SMValues, 0);
+			generateMaximumAttributeCoverageMatrix();
+			generateReachableNodesbyAttributes();
+			selectedNodes.clear();
+		}		
+	}
+	
 	private void step4() {
 		routes[(vehicle - 1)].add(tempZ);
 		if (isRouteFeasible(routes[(vehicle - 1)])) {
@@ -98,24 +101,8 @@ public class HeuristicAlgorithm {
 		}
 	}
 
-	private void step5() {
-		System.out.println("New Route!");
-		this.nodeZ = 0;
-		this.vehicle += 1;
-		if(vehicle > numberOfVehicles){
-			return;
-		}else{
-			this.routes[(vehicle - 1)] = new ArrayList();
-			generateMaximumAttributeCoverageMatrix();
-			generateReachableNodesbyAttributes();
-			selectedNodes.clear();
-		}
-		
-	}
-
 	private void step3() {
 		tempZ = checkSMValues();
-		System.out.println(tempZ);
 	}
 
 	private void step2() {
@@ -140,9 +127,9 @@ public class HeuristicAlgorithm {
 			node = findHighestValuedSM();
 		}
 
-		System.out.println(selectedNodes.toString() + " ->" + node);
-		System.out.println(maximumAttributeCoverage[0] + " " + maximumAttributeCoverage[1] + " " + maximumAttributeCoverage[2]+ " " + maximumAttributeCoverage[3]);
-		System.out.println(SMValues[0] + " " + SMValues[1] + " " + SMValues[2]);
+//		System.out.println(selectedNodes.toString() + " ->" + node);
+//		System.out.println(maximumAttributeCoverage[0] + " " + maximumAttributeCoverage[1] + " " + maximumAttributeCoverage[2]+ " " + maximumAttributeCoverage[3]);
+//		System.out.println(SMValues[0] + " " + SMValues[1] + " " + SMValues[2]);
 		
 		return node;
 	}
@@ -176,6 +163,7 @@ public class HeuristicAlgorithm {
 		return min;
 	}
 
+	
 	private void findSMValues() {
 		Object[] items = selectedNodes.toArray();
 		for (int i = 0; i < items.length; i++) {
@@ -229,6 +217,7 @@ public class HeuristicAlgorithm {
 		}
 
 	}
+	
 
 	// maximum # of times that attribute a can be covered
 
@@ -258,8 +247,11 @@ public class HeuristicAlgorithm {
 	}
 
 	public void showResults() {
+		for(int i = 0; i<routes.length; i++){
+			System.out.println(routes[i].toString());
+		}
 	}
-
+	
 	private boolean isVisited(int nodeID) {
 		for (int i = 0; i < reachableNodesByAttributesTable.length; i++) {
 			if (reachableNodesByAttributesTable[i].contains(nodeID)) {
@@ -276,7 +268,7 @@ public class HeuristicAlgorithm {
 			}
 		}
 	}
-
+	
 	private void removeNodeFromAttributeTableAfterInsertion(int id) {
 		for (int i = 0; i < attributes[0].length; i++) {
 			attributes[id][i] = 0;
