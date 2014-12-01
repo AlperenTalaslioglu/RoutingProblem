@@ -21,10 +21,13 @@ public class HeuristicAlgorithm {
 	public HeuristicAlgorithm() {
 		this.nodeZ = 0;
 		this.vehicle = 1;
-		this.selectedNodes = new HashSet();
+		this.selectedNodes = new HashSet(); // Considered 3 nodes
 		this.SMValues = new int[3];
 	}
 
+	/*
+	 * Getting data from file object
+	 */
 	public void getData(FileReader reader) {
 		this.numberOfVehicles = reader.getNumberOfVehicles();
 		this.tMax = reader.getMaxTimeOfVehicle();
@@ -37,6 +40,9 @@ public class HeuristicAlgorithm {
 		this.routes = new ArrayList[this.numberOfVehicles];
 	}
 
+	/*
+	 * Algorithm executer
+	 */
 	public void execute() {
 		init();
 		routes[(vehicle - 1)] = new ArrayList();
@@ -48,6 +54,9 @@ public class HeuristicAlgorithm {
 		}		
 	}
 
+	/*
+	 * Checking the route's feasibility by tMax 
+	 */
 	private boolean isRouteFeasible(ArrayList route) {
 		double routeTime;
 		if (route.size() < 2) {
@@ -68,13 +77,19 @@ public class HeuristicAlgorithm {
 			return false;
 		}
 	}
-
+	
+	/*
+	 * Update z=0 (vehicle k returns to the depot)
+	 */
 	private void step5() {
+		//Update k=k+1 (consider a new vehicle). If k>K, STOP.
 		this.nodeZ = 0;
 		this.vehicle += 1;
 		if(vehicle > numberOfVehicles){
+			//STOP
 			return;
 		}else{
+			//GOTO STEP1
 			this.routes[(vehicle - 1)] = new ArrayList();
 			Arrays.fill(maximumAttributeCoverage, 0);
 			Arrays.fill(maximumAttributeCoverage, 0);
@@ -85,9 +100,13 @@ public class HeuristicAlgorithm {
 		}		
 	}
 	
+	/*
+	 * Can we visit nodeZ after nodeZ by vehicle k feasibly? That is, is routeTime <=Tmax?
+	 */
 	private void step4() {
-		routes[(vehicle - 1)].add(tempZ);
-		if (isRouteFeasible(routes[(vehicle - 1)])) {
+		routes[(vehicle - 1)].add(tempZ);//adding item temprarily to route
+		if (isRouteFeasible(routes[(vehicle - 1)])) { // Checking the route
+			//If yes, insert node z' to the route. Update node z as z=z'. 	
 			nodeZ = tempZ;
 			removeNodeFromTableAfterInsertion(tempZ);
 			removeNodeFromAttributeTableAfterInsertion(tempZ);
@@ -96,19 +115,31 @@ public class HeuristicAlgorithm {
 			selectedNodes.clear();
 			Arrays.fill(SMValues, 0);
 		} else {
-			routes[(vehicle - 1)].remove(routes[(vehicle - 1)].size() - 1);
+			routes[(vehicle - 1)].remove(routes[(vehicle - 1)].size() - 1);//if not feasible, remove item from route
 			step5();
 		}
 	}
-
+	/*
+	 * Select the node with the highest "SMValues[i]" value. 
+	 * If there is a tie, select the node that is closest to "nodeZ".
+	 */
 	private void step3() {
 		tempZ = checkSMValues();
 	}
 
+	/*
+	 * For each node i in "selectedNodes",
+	 * calculate the sum of "maximumAttributeCoverage" values for the attributes that the nodes carry; 
+	 * let this value be denoted by "SMValues[i]"
+	 */
 	private void step2() {
 		findSMValues();
 	}
 
+	/*
+	 * This method controls the 3 nodes's SM values
+	 * Compares them and find the accurate node to select
+	 */
 	private int checkSMValues() {
 		int node = 0;
 		Object[] items = selectedNodes.toArray();
@@ -133,7 +164,11 @@ public class HeuristicAlgorithm {
 		
 		return node;
 	}
-
+	
+	/*
+	 * This method is for finding the closest node between 3 nodes 
+	 * in the situation that all of them have different SM values
+	 */
 	private int findHighestValuedSM() {
 		Object[] items = selectedNodes.toArray();
 		int max = (int) items[0];
@@ -149,6 +184,10 @@ public class HeuristicAlgorithm {
 		return (int) items[indice];
 	}
 
+	/*
+	 * This method is for finding the closest node between 3 nodes 
+	 * in the situation that all of them have same SM values
+	 */
 	private int findClosestNodeToNodeZ() {
 		Object[] items = selectedNodes.toArray();
 		int sum = Integer.MAX_VALUE;
@@ -163,7 +202,11 @@ public class HeuristicAlgorithm {
 		return min;
 	}
 
-	
+	/*
+	 * For each node i in S(z), calculate the sum of M(a)
+	 * values for the attributes that the nodes carry;
+	 * let this value be denoted by SM (i).
+	 */
 	private void findSMValues() {
 		Object[] items = selectedNodes.toArray();
 		for (int i = 0; i < items.length; i++) {
@@ -174,11 +217,17 @@ public class HeuristicAlgorithm {
 			}
 		}
 	}
-
+	/*
+	 * Consider the 3 nodes that are not visited by any vehicles yet and are closest to node z.
+	 * Denote this set as set "selectedNodes"
+	 */
 	private void step1() {
 		findConsiderable3Nodes();
 	}
 
+	/*
+	 * Finding the closest 3 nodes to Z that are not visited yet
+	 */
 	private void findConsiderable3Nodes() {
 		for (int i = 0; i < 3; i++) {
 			double sum = Double.MAX_VALUE;
@@ -195,12 +244,19 @@ public class HeuristicAlgorithm {
 		}
 	}
 
+	/*
+	 * Initialize
+	 */
 	private void init() {
 		generateDistanceMatrix();
 		generateMaximumAttributeCoverageMatrix();
 		generateReachableNodesbyAttributes();
 	}
 
+	/*
+	 * This method generates sets of nodes that are
+	 * categorized by their attributes
+	 */
 	private void generateReachableNodesbyAttributes() {
 		// initialize the table by sets
 		for (int i = 0; i < reachableNodesByAttributesTable.length; i++) {
@@ -219,8 +275,9 @@ public class HeuristicAlgorithm {
 	}
 	
 
-	// maximum # of times that attribute a can be covered
-
+	/*
+	 *  maximum # of times that attribute a can be covered
+	 */
 	private void generateMaximumAttributeCoverageMatrix() {
 		int index = 0;
 		for (int i = 0; i < attributes[0].length; i++) {
@@ -233,6 +290,9 @@ public class HeuristicAlgorithm {
 		}
 	}
 
+	/*
+	 * Initial distance matrix generation
+	 */
 	private void generateDistanceMatrix() {
 		for (int i = 0; i < numberOfNodes; i++) {
 			for (int j = 0; j < numberOfNodes; j++) {
@@ -241,17 +301,26 @@ public class HeuristicAlgorithm {
 		}
 	}
 
+	/*
+	 * Distance calculator
+	 */
 	private double calculateDistanceBetween(int i, int j) {
 		return Math.sqrt(Math.pow((coordinates[i][0] - coordinates[j][0]), 2)
 				+ Math.pow((coordinates[i][1] - coordinates[j][1]), 2));
 	}
 
+	/*
+	 * Shows the routes
+	 */
 	public void showResults() {
 		for(int i = 0; i<routes.length; i++){
-			System.out.println(routes[i].toString());
+			System.out.println("0 -> " + routes[i].toString() + " -> 0");
 		}
 	}
 	
+	/*
+	 * Checking the node is visited or not
+	 */
 	private boolean isVisited(int nodeID) {
 		for (int i = 0; i < reachableNodesByAttributesTable.length; i++) {
 			if (reachableNodesByAttributesTable[i].contains(nodeID)) {
@@ -261,6 +330,9 @@ public class HeuristicAlgorithm {
 		return true;
 	}
 
+	/*
+	 * After insertion, remove the node from reachable node list
+	 */
 	private void removeNodeFromTableAfterInsertion(int id) {
 		for (int i = 0; i < reachableNodesByAttributesTable.length; i++) {
 			if (reachableNodesByAttributesTable[i].contains(id)) {
@@ -269,6 +341,9 @@ public class HeuristicAlgorithm {
 		}
 	}
 	
+	/*
+	 * After insertion, removing the attributes of this node from table
+	 */
 	private void removeNodeFromAttributeTableAfterInsertion(int id) {
 		for (int i = 0; i < attributes[0].length; i++) {
 			attributes[id][i] = 0;
