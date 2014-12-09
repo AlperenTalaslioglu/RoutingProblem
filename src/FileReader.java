@@ -12,6 +12,8 @@ public class FileReader {
 	private int numberOfAttributes;
 	private int[][] coordinates;
 	private int[][] attributes;
+	private double[][] distances;
+	private double[][] timeMatrix;
 
 	public FileReader(String fileName) {
 		this.fileName = fileName;
@@ -24,26 +26,41 @@ public class FileReader {
 		numberOfVehicles = fileScanner.nextInt();
 		numberOfNodes = fileScanner.nextInt();
 		numberOfAttributes = fileScanner.nextInt();
-		
+
+		distances = new double[numberOfNodes][numberOfNodes];
+		timeMatrix = new double[numberOfNodes][numberOfNodes];
 		coordinates = new int[numberOfNodes + 1][2]; // +1 is for depot
-		attributes = new int[numberOfNodes + 1][ numberOfAttributes]; // +1 is for depot
-		
-		int itemIndex = 0; 
+		attributes = new int[numberOfNodes + 1][numberOfAttributes]; // +1 is
+																		// for
+																		// depot
+
+		int itemIndex = 0;
 		while (fileScanner.hasNextInt()) {
 			// First getting the coordinates of current indexed item
 			int x = fileScanner.nextInt();
 			int y = fileScanner.nextInt();
-			
-			//Putting coordinates to array
-			coordinates[itemIndex][0] = x;
-			coordinates[itemIndex][1] = y;			
 
-			// Second getting the attributes of current indexed item and putting to array
+			// Putting coordinates to array
+			coordinates[itemIndex][0] = x;
+			coordinates[itemIndex][1] = y;
+
+			// Second getting the attributes of current indexed item and putting
+			// to array
 			for (int i = 0; i < numberOfAttributes; i++) {
-				attributes[itemIndex][i]= fileScanner.nextInt();
+				attributes[itemIndex][i] = fileScanner.nextInt();
 			}
-			
+
 			itemIndex++;
+		}
+		generateDistanceMatrix();
+		generateTimeMatrix();
+	}
+
+	private void generateTimeMatrix() {
+		for (int i = 0; i < numberOfNodes; i++) {
+			for (int j = 0; j < numberOfNodes; j++) {
+				distances[i][j] = calculateDistanceBetween(i, j) / 30;
+			}
 		}		
 	}
 
@@ -66,9 +83,38 @@ public class FileReader {
 	public int[][] getAttributes() {
 		return attributes;
 	}
-	
+
 	public int getNumberOfAttributes() {
 		return numberOfAttributes;
+	}
+	
+	
+
+	public double[][] getDistances() {
+		return distances;
+	}
+
+	/*
+	 * Initial distance matrix generation
+	 */
+	private void generateDistanceMatrix() {
+		for (int i = 0; i < numberOfNodes; i++) {
+			for (int j = 0; j < numberOfNodes; j++) {
+				distances[i][j] = calculateDistanceBetween(i, j);
+			}
+		}
+	}
+
+	/*
+	 * Distance calculator
+	 */
+	private double calculateDistanceBetween(int i, int j) {
+		return Math.sqrt(Math.pow((coordinates[i][0] - coordinates[j][0]), 2)
+				+ Math.pow((coordinates[i][1] - coordinates[j][1]), 2));
+	}
+
+	public double[][] getTimeMatrix() {
+		return timeMatrix;
 	}
 
 	@Override

@@ -8,10 +8,10 @@ public class Router {
 		FileReader reader = new FileReader("data.txt");
 		reader.readFile();
 		
-		//Creating Algorithm
-		HeuristicAlgorithm algorithm = new HeuristicAlgorithm();
-		algorithm.getData(reader);
-		algorithm.execute();
-		algorithm.showResults();		
+		Algorithm myopic1a = new HeuristicMyopic1aAlgorithm();
+		myopic1a.getData(reader);
+		myopic1a.execute();
+		myopic1a.showResults();
+		
 	}
 }
