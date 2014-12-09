@@ -56,14 +56,12 @@ public class HeuristicMyopic1aAlgorithm extends Algorithm {
 	 * Execution of algorithm after initial steps completed
 	 */
 	private void executeAlgorithm() {
-		
 		Object[] nodes = null;
 		int route = 0;
 		int tempNode = 0;
 		double min = Double.MAX_VALUE;
 		int position = 0;
 		ArrayList tempRoute;
-
 
 		while (true) {
 			nodes = reachableNodesByAttributesTable[selectedAtrribute].toArray();
@@ -74,14 +72,11 @@ public class HeuristicMyopic1aAlgorithm extends Algorithm {
 			
 			for (int i = 0; i < nodes.length; i++) {
 				int node = (int) nodes[i];
-
 				for (int r = 0; r < routes.length; r++) {
-
 					for (int n = 0; n < routes[r].size() + 1; n++) {
 						tempRoute = routes[r];
 						tempRoute.add(n, node);
 						double cost = calculateRouteCost(tempRoute);
-
 						if (min > cost && cost <= tMax) {
 							min = cost;
 							tempNode = node;
@@ -92,9 +87,7 @@ public class HeuristicMyopic1aAlgorithm extends Algorithm {
 					}
 				}
 			}
-			
 			if(tempNode == 0){break;}
-
 			addToTable(tempNode);
 			routes[route].add(position, tempNode);
 			removeNodeFromTableAfterInsertion(tempNode);
