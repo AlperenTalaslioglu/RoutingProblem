@@ -21,12 +21,12 @@ public class HeuristicMyopic1aAlgorithm extends Algorithm {
 	 */
 	private void init() {
 		// Creating and initializing the empty routes
-		this.routes = new ArrayList[numberOfVehicles];
+		routes = new ArrayList[numberOfVehicles];
 		for (int i = 0; i < routes.length; i++) {routes[i] = new ArrayList();}
 
 		// Creating and initializing the node/attribute table
-		this.reachableNodesByAttributesTable = new HashSet[super.numberOfAttributes];
-		this.nodeAtrributeTable = new double[3][super.numberOfAttributes];
+		reachableNodesByAttributesTable = new HashSet[numberOfAttributes];
+		nodeAtrributeTable = new double[3][numberOfAttributes];
 		findAttributesTotalNumberOfAppearences();
 
 		// Creating the set of unvisited nodes by attributes
@@ -187,7 +187,7 @@ public class HeuristicMyopic1aAlgorithm extends Algorithm {
 		int min = Integer.MIN_VALUE;
 
 		for (int i = 0; i < items.length; i++) {
-			if (sum > calculateDistanceBetween(0, (int) items[i])) {
+			if (min < calculateDistanceBetween(0, (int) items[i])) {
 				sum = (int) calculateDistanceBetween(0, (int) items[i]);
 				min = (int) items[i];
 			}

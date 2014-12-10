@@ -27,8 +27,8 @@ public class FileReader {
 		numberOfNodes = fileScanner.nextInt();
 		numberOfAttributes = fileScanner.nextInt();
 
-		distances = new double[numberOfNodes][numberOfNodes];
-		timeMatrix = new double[numberOfNodes][numberOfNodes];
+		distances = new double[numberOfNodes+1][numberOfNodes+1];
+		timeMatrix = new double[numberOfNodes+1][numberOfNodes+1];
 		coordinates = new int[numberOfNodes + 1][2]; // +1 is for depot
 		attributes = new int[numberOfNodes + 1][numberOfAttributes]; // +1 is
 																		// for
@@ -98,8 +98,8 @@ public class FileReader {
 	 * Initial distance matrix generation
 	 */
 	private void generateDistanceMatrix() {
-		for (int i = 0; i < numberOfNodes; i++) {
-			for (int j = 0; j < numberOfNodes; j++) {
+		for (int i = 0; i < numberOfNodes+1; i++) {
+			for (int j = 0; j < numberOfNodes+1; j++) {
 				distances[i][j] = calculateDistanceBetween(i, j);
 			}
 		}
