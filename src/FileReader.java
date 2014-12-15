@@ -15,8 +15,9 @@ public class FileReader {
 	private double[][] distances;
 	private double[][] timeMatrix;
 
-	public FileReader(String fileName) {
+	public FileReader(String fileName) throws FileNotFoundException {
 		this.fileName = fileName;
+		readFile();
 	}
 
 	public void readFile() throws FileNotFoundException {
@@ -59,7 +60,7 @@ public class FileReader {
 	private void generateTimeMatrix() {
 		for (int i = 0; i < numberOfNodes; i++) {
 			for (int j = 0; j < numberOfNodes; j++) {
-				distances[i][j] = calculateDistanceBetween(i, j) / 30;
+				timeMatrix[i][j] = calculateDistanceBetween(i, j) / 30;
 			}
 		}		
 	}

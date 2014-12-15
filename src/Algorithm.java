@@ -25,7 +25,7 @@ public class Algorithm {
 	}
 	
 	public void execute(){
-		System.out.println("Algorithm Execution!");		
+		System.out.println("Algorithm Execution!");	
 	}
 
 	public void showResults() {
