@@ -12,16 +12,15 @@ public class Router {
 		myopic1a.execute();
 		myopic1a.showResults();
 		
-		Algorithm myopic2 = new HeuristicMyopic2Algorithm();
-		myopic2.getData(new FileReader("data.txt"));
-		myopic2.execute();
-		myopic2.showResults();
+		Algorithm myopic1b = new HeuristicMyopic1bAlgorithm();
+		myopic1b.getData(new FileReader("data.txt"));
+		myopic1b.execute();
+		myopic1b.showResults();
 		
-//		HeuristicAlgorithmOld algorithm = new HeuristicAlgorithmOld();
-//		algorithm.getData(reader);
-//		algorithm.execute();
-//		algorithm.showResults();
-		
-		
+//		Algorithm myopic2 = new HeuristicMyopic2Algorithm();
+//		myopic2.getData(new FileReader("data.txt"));
+//		myopic2.execute();
+//		myopic2.showResults();
+				
 	}
 }

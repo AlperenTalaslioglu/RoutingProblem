@@ -1,28 +1,30 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 
 public class HeuristicMyopic1bAlgorithm extends Algorithm {
 	private HashSet[] reachableNodesByAttributesTable;
 	private ArrayList[] routes;
 	private double nodeAtrributeTable[][];
-	private int selectedAtrribute;
-	
-	
-	
+	private ArrayList chosenAttributes;
+	private ArrayList setA;
+
 	@Override
 	public void execute() {
 		init();
 		initAllVehicles();
 		executeAlgorithm();
 	}
-	
+
 	/**
 	 * Initial step of algorithm
 	 */
 	private void init() {
 		// Creating and initializing the empty routes
 		routes = new ArrayList[numberOfVehicles];
-		for (int i = 0; i < routes.length; i++) {routes[i] = new ArrayList();}
+		for (int i = 0; i < routes.length; i++) {
+			routes[i] = new ArrayList();
+		}
 
 		// Creating and initializing the node/attribute table
 		reachableNodesByAttributesTable = new HashSet[numberOfAttributes];
@@ -30,7 +32,13 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 		findAttributesTotalNumberOfAppearences();
 
 		// Creating the set of unvisited nodes by attributes
-		generateReachableNodesSetsbyAttributes();
+		generateReachableNodeSetsbyAttributes();
+
+		// Chosen attributes by ratios
+		chosenAttributes = new ArrayList();
+
+		// The set of nodes that carry an attribute
+		setA = new ArrayList();
 	}
 
 	/**
@@ -38,66 +46,114 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 	 */
 	private void initAllVehicles() {
 		// Find max appeared attribute and assign initially -> a
-		selectedAtrribute = findMaxAppearedAttribute();
+		int selectedAtrribute = findMaxAppearedAttribute();
 
-		for (int i = 0; i < numberOfVehicles; i++) {
-			if (routes[i].isEmpty()) {
-				int selectedNode = findClosestNodeToDepot(reachableNodesByAttributesTable[selectedAtrribute]);
-				addToTable(selectedNode);
-				routes[i].add(selectedNode);
-				removeNodeFromTableAfterInsertion(selectedNode);
-				calculateRatios();
-				selectedAtrribute = chooseNewAttribute();
-			}
+		// First vehicle - inital step
+		int selectedNode = findClosestNodeToDepot(reachableNodesByAttributesTable[selectedAtrribute]);
+		addToTable(selectedNode);
+		routes[0].add(selectedNode);
+		removeNodeFromTableAfterInsertion(selectedNode);
+		calculateRatios();
+		chooseSetOfAttributes();
+		generateSASet();
+
+		// Other vehicles
+		for (int i = 1; i < numberOfVehicles; i++) {
+			HashSet tempSASet = new HashSet();
+			tempSASet.addAll(setA);
+			int closestToDepot = findClosestNodeToDepot(tempSASet);
+			addToTable(closestToDepot);
+			routes[i].add(closestToDepot);
+			removeNodeFromTableAfterInsertion(closestToDepot);
+			calculateRatios();
+			chooseSetOfAttributes();
+			generateSASet();
 		}
 	}
-	
+
+	private void generateSASet() {
+		this.setA.clear();
+		for (int i = 0; i < chosenAttributes.size(); i++) {
+			Collection nodes = reachableNodesByAttributesTable[(int) chosenAttributes
+					.get(i)];
+			setA.addAll(nodes);
+		}
+		// Removing duplicated nodes
+		HashSet tempSet = new HashSet();
+		tempSet.addAll(setA);
+		setA.clear();
+		setA.addAll(tempSet);
+		chosenAttributes.clear();
+	}
+
 	/**
 	 * Execution of algorithm after initial steps completed
 	 */
 	private void executeAlgorithm() {
-		Object[] nodes = null;
-		int route = 0;
-		int tempNode = 0;
-		double min = Double.MAX_VALUE;
-		int position = 0;
-		ArrayList tempRoute;
 
+		int position;
+		int route;
+		int selectedNodeToRoute;
+		double min;
+		
 		while (true) {
-			nodes = reachableNodesByAttributesTable[selectedAtrribute].toArray();
-			route = 0;
-			tempNode = 0;
-			min = Double.MAX_VALUE;
 			position = 0;
+			route = 0;
+			selectedNodeToRoute = 0;
+			min = Double.MAX_VALUE;
 			
-			for (int i = 0; i < nodes.length; i++) {
-				int node = (int) nodes[i];
-				for (int r = 0; r < routes.length; r++) {
-					for (int n = 0; n < routes[r].size() + 1; n++) {
-						tempRoute = routes[r];
-						tempRoute.add(n, node);
-						double cost = calculateRouteCost(tempRoute);
-						if (min > cost && cost <= tMax) {
-							min = cost;
-							tempNode = node;
+			for (int i = 0; i < setA.size(); i++) {
+				int node = (int) setA.get(i);
+				// Checking all routes to find best insertion
+				for (int j = 0; j < routes.length; j++) {
+					ArrayList tempRoute = routes[j];				
+					for(int n = 0; n<tempRoute.size()+1; n++){
+						tempRoute.add(n, node);				
+						if( min >  calculateRouteCost(tempRoute) && calculateRouteCost(tempRoute) <= tMax){
+							min = calculateRouteCost(tempRoute);
 							position = n;
-							route = r;
+							route = j;
+							selectedNodeToRoute = node;									
 						}
-						tempRoute.remove(n);
+						tempRoute.remove(n);						
 					}
-				}
+				}				
 			}
-			if(tempNode == 0){break;}
-			addToTable(tempNode);
-			routes[route].add(position, tempNode);
-			removeNodeFromTableAfterInsertion(tempNode);
+			
+			if(selectedNodeToRoute == 0){return;}			
+			addToTable(selectedNodeToRoute);
+			routes[route].add(position,selectedNodeToRoute);
+			removeNodeFromTableAfterInsertion(selectedNodeToRoute);
 			calculateRatios();
-			selectedAtrribute = chooseNewAttribute();
+			chooseSetOfAttributes();
+			generateSASet();		
 		}
 	}
-	
+
+	private void chooseSetOfAttributes() {
+		int tempSelected = 0;
+		double min = nodeAtrributeTable[2][0];
+
+		for (int i = 1; i < numberOfAttributes; i++) {
+			if (min > nodeAtrributeTable[2][i]) {
+				tempSelected = i;
+				min = nodeAtrributeTable[2][i];
+			}
+		}
+
+		chosenAttributes.add(tempSelected);
+
+		for (int i = 0; i < numberOfAttributes; i++) {
+			if (i == tempSelected) {
+				continue;
+			} else if (nodeAtrributeTable[2][tempSelected] == nodeAtrributeTable[2][i]) {
+				chosenAttributes.add(i);
+			}
+		}
+	}
+
 	/**
-	 * Finding the max appeared attribute 
+	 * Finding the max appeared attribute
 	 */
 	private int findMaxAppearedAttribute() {
 		int max = 0;
@@ -106,7 +162,7 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 		}
 		return max;
 	}
-	
+
 	/**
 	 * Finding # of appearances by attributes
 	 */
@@ -131,6 +187,7 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 
 	/**
 	 * After insertion, remove the node from reachable node list
+	 * 
 	 * @param id
 	 */
 	private void removeNodeFromTableAfterInsertion(int id) {
@@ -143,6 +200,7 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 
 	/**
 	 * A node is visited or not
+	 * 
 	 * @param id
 	 * @return true/false
 	 */
@@ -159,7 +217,7 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 	 * This method generates sets of nodes that are categorized by their
 	 * attributes
 	 */
-	private void generateReachableNodesSetsbyAttributes() {
+	private void generateReachableNodeSetsbyAttributes() {
 		// initialize the table by sets
 		for (int i = 0; i < this.reachableNodesByAttributesTable.length; i++) {
 			this.reachableNodesByAttributesTable[i] = new HashSet();
@@ -173,41 +231,43 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 				}
 			}
 		}
-
 	}
 
 	/**
-	 * This method is for finding the closest node to depot for initial situations
+	 * This method is for finding the closest node to depot for initial
+	 * situations
+	 * 
 	 * @param selectedNodes
 	 * @return
 	 */
 	private int findClosestNodeToDepot(HashSet selectedNodes) {
 		Object[] items = selectedNodes.toArray();
-		int sum = Integer.MAX_VALUE;
-		int min = Integer.MIN_VALUE;
-
-		for (int i = 0; i < items.length; i++) {
-			if (min < calculateDistanceBetween(0, (int) items[i])) {
-				sum = (int) calculateDistanceBetween(0, (int) items[i]);
-				min = (int) items[i];
+		int closest = (int) items[0];
+		double min = calculateDistanceBetween(0, (int) items[0]);
+		for (int i = 1; i < items.length; i++) {
+			double tempValue = calculateDistanceBetween(0, (int) items[i]);
+			if (tempValue < min) {
+				min = tempValue;
+				closest = (int) items[i];
 			}
 		}
-		return min;
+		return closest;
 	}
 
 	/**
 	 * Distance Calculator
+	 * 
 	 * @param to
 	 * @param from
 	 * @return
 	 */
 	private double calculateDistanceBetween(int to, int from) {
-		return Math.sqrt(Math.pow((coordinates[to][0] - coordinates[from][0]), 2)
-				+ Math.pow((coordinates[to][1] - coordinates[from][1]), 2));
+		return distances[to][from];
 	}
-	
+
 	/**
 	 * After the ratio calculations, selecting the suitable attribute by ratio
+	 * 
 	 * @return selected attribute
 	 */
 	private int chooseNewAttribute() {
@@ -227,7 +287,7 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 		}
 		return tempSelected;
 	}
-	
+
 	/**
 	 * Calculate ratios of node/attribute table
 	 */
@@ -237,9 +297,10 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 					/ nodeAtrributeTable[1][i];
 		}
 	}
-	
+
 	/**
 	 * Adding selected not to Node/Attribute table
+	 * 
 	 * @param selectedNode
 	 */
 	private void addToTable(int selectedNode) {
@@ -271,10 +332,13 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 
 	@Override
 	public void showResults() {
+		System.out.println("Results of Myopic 1b");
 		for (int i = 0; i < routes.length; i++) {
-			System.out.println("Route "+ (i+1));
-			System.out.println("Route " + (i+1) + " time : " + calculateRouteCost(routes[i]));
-			System.out.println("Route " +  (i+1) +" :  0 -> " + routes[i].toString() +" -> 0");
+			System.out.println("Route " + (i + 1));
+			System.out.println("Route " + (i + 1) + " time : "
+					+ calculateRouteCost(routes[i]));
+			System.out.println("Route " + (i + 1) + " :  0 -> "
+					+ routes[i].toString() + " -> 0");
 			System.out.println();
 		}
 	}
