@@ -17,6 +17,11 @@ public class Router {
 		myopic1b.execute();
 		myopic1b.showResults();
 		
+		Algorithm myopic1c = new HeuristicMyopic1cAlgorithm();
+		myopic1c.getData(new FileReader("data.txt"));
+		myopic1c.execute();
+		myopic1c.showResults();
+		
 //		Algorithm myopic2 = new HeuristicMyopic2Algorithm();
 //		myopic2.getData(new FileReader("data.txt"));
 //		myopic2.execute();
