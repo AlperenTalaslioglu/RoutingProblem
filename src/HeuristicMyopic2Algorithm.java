@@ -137,8 +137,9 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 	/*
 	 * Distance calculator
 	 */
-	private double getDistanceBetween(int i, int j) {
-		return distances[i][j];
+	private double getDistanceBetween(int to, int from) {
+		return Math.sqrt(Math.pow((coordinates[to][0] - coordinates[from][0]), 2)
+				+				+ Math.pow((coordinates[to][1] - coordinates[from][1]), 2));
 	}
 	
 	/*

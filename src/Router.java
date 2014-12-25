@@ -22,10 +22,10 @@ public class Router {
 		myopic1c.execute();
 		myopic1c.showResults();
 		
-//		Algorithm myopic2 = new HeuristicMyopic2Algorithm();
-//		myopic2.getData(new FileReader("data.txt"));
-//		myopic2.execute();
-//		myopic2.showResults();
+		Algorithm myopic2 = new HeuristicMyopic2Algorithm();
+		myopic2.getData(new FileReader("data.txt"));
+		myopic2.execute();
+		myopic2.showResults();
 				
 	}
 }
