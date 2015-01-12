@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 
 public class Algorithm {
 	protected int numberOfVehicles;
@@ -32,4 +34,11 @@ public class Algorithm {
 		System.out.println("Algorithm Results!");
 		System.out.println(numberOfAttributes);
 	}
+
+	public ArrayList[] getRoutes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

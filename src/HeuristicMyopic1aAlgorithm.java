@@ -4,6 +4,7 @@ import java.util.HashSet;
 public class HeuristicMyopic1aAlgorithm extends Algorithm {
 	private HashSet[] reachableNodesByAttributesTable;
 	private ArrayList[] routes;
+	public static double totalRouteCosts;
 	private double nodeAtrributeTable[][];
 	private int selectedAtrribute;
 
@@ -96,7 +97,13 @@ public class HeuristicMyopic1aAlgorithm extends Algorithm {
 			calculateRatios();
 			selectedAtrribute = chooseNewAttribute();
 		}
+		
+		for (int i = 0; i < routes.length; i++) {
+			totalRouteCosts += calculateRouteCost(routes[i]);			
+		}		
 	}
+	
+
 
 	/**
 	 * Finding the max appeared attribute
@@ -284,4 +291,9 @@ public class HeuristicMyopic1aAlgorithm extends Algorithm {
 			System.out.println();
 		}
 	}
+	
+	public static double getTotalRouteCosts(){
+		return totalRouteCosts;
+	}
+	
 }

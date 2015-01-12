@@ -8,6 +8,8 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 	private double nodeAtrributeTable[][];
 	private ArrayList chosenAttributes;
 	private ArrayList setA;
+	public 	static double totalRouteCosts;
+
 
 	@Override
 	public void execute() {
@@ -120,7 +122,7 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 				}				
 			}
 			
-			if(selectedNodeToRoute == 0){return;}			
+			if(selectedNodeToRoute == 0){break;}			
 			addToTable(selectedNodeToRoute);
 			routes[route].add(position,selectedNodeToRoute);
 			removeNodeFromTableAfterInsertion(selectedNodeToRoute);
@@ -128,6 +130,10 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 			chooseSetOfAttributes();
 			generateSASet();		
 		}
+		
+		for (int i = 0; i < routes.length; i++) {
+			totalRouteCosts += calculateRouteCost(routes[i]);			
+		}	
 	}
 
 	private void chooseSetOfAttributes() {
@@ -342,4 +348,6 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 			System.out.println();
 		}
 	}
+	
+	
 }

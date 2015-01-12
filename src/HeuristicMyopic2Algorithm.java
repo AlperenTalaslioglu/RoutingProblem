@@ -12,6 +12,8 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 	private int[] SMValues;
 	private int vehicle;
 	private int tempZ;
+	public static double totalRouteCosts;
+
 
 	public HeuristicMyopic2Algorithm() {
 		this.nodeZ = 0;	
@@ -28,7 +30,11 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 			step2();
 			step3();
 			step4();
-		}		
+		}
+		
+		for (int i = 0; i < routes.length; i++) {
+			totalRouteCosts += calculateRouteCost(routes[i]);			
+		}	
 	}
 	
 	private void step5() {
@@ -312,4 +318,10 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 		}
 		return cost;
 	}
+	
+	@Override
+	public ArrayList[] getRoutes() {
+		return this.routes;
+	}
+
 }
