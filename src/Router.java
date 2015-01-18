@@ -15,7 +15,6 @@ public class Router {
 		myopic1a.getData(new FileReader("data.txt"));
 		myopic1a.execute();
 		myopic1a.showResults();
-		routes = myopic1a.getRoutes();
 
 		/**
 		 * MYOPIC 1B
@@ -24,10 +23,7 @@ public class Router {
 		myopic1b.getData(new FileReader("data.txt"));
 		myopic1b.execute();
 		myopic1b.showResults();
-		if(myopic1b.totalRouteCosts > totalRouteCost){
-			routes = myopic1b.getRoutes();
-			totalRouteCost = myopic1b.totalRouteCosts;
-		}
+
 
 		/**
 		 * MYOPIC 1C
@@ -36,10 +32,7 @@ public class Router {
 		myopic1c.getData(new FileReader("data.txt"));
 		myopic1c.execute();
 		myopic1c.showResults();
-		if(myopic1c.totalRouteCosts > totalRouteCost){
-			routes = myopic1c.getRoutes();
-			totalRouteCost = myopic1c.totalRouteCosts;
-		}
+
 		
 		/**
 		 * MYOPIC 2
@@ -48,43 +41,42 @@ public class Router {
 		myopic2.getData(new FileReader("data.txt"));
 		myopic2.execute();
 		myopic2.showResults();
-		if(myopic2.totalRouteCosts > totalRouteCost){
-			routes = myopic2.getRoutes();
-			totalRouteCost = myopic2.totalRouteCosts;
-		}		
-		// IMPROVEMENTS
-				
-		
-		for(int i = 0; i<routes.length; i++){
-			System.out.println(routes[i].toString());
-		}
 		
 		
-		/**
-		 * 2-OPT
-		 */
-		TwoOptAlgorithm twoOPT = new TwoOptAlgorithm(routes);
-		twoOPT.getData(new FileReader("data.txt"));
-		twoOPT.execute();
-		twoOPT.showResults();
-		if(twoOPT.totalRouteCosts < totalRouteCost){
-			routes = twoOPT.getRoutes();
-			totalRouteCost = twoOPT.totalRouteCosts;
-		}
-				
-
-		/**
-		 * SWAP
-		 */
-		SwapAlgorithm swap = new SwapAlgorithm(routes);
-		swap.getData(new FileReader("data.txt"));
-		swap.execute();
-		swap.showResults();
-		System.out.println(swap.totalRouteCosts < totalRouteCost);
-		if(swap.totalRouteCosts < totalRouteCost){
-			routes = swap.getRoutes();
-			totalRouteCost = swap.totalRouteCosts;
-		}
+		
+//		// IMPROVEMENTS
+//				
+//		
+//		for(int i = 0; i<routes.length; i++){
+//			System.out.println(routes[i].toString());
+//		}
+//		
+//		
+//		/**
+//		 * 2-OPT
+//		 */
+//		TwoOptAlgorithm twoOPT = new TwoOptAlgorithm(routes);
+//		twoOPT.getData(new FileReader("data.txt"));
+//		twoOPT.execute();
+//		twoOPT.showResults();
+//		if(twoOPT.totalRouteCosts < totalRouteCost){
+//			routes = twoOPT.getRoutes();
+//			totalRouteCost = twoOPT.totalRouteCosts;
+//		}
+//				
+//
+//		/**
+//		 * SWAP
+//		 */
+//		SwapAlgorithm swap = new SwapAlgorithm(routes);
+//		swap.getData(new FileReader("data.txt"));
+//		swap.execute();
+//		swap.showResults();
+//		System.out.println(swap.totalRouteCosts < totalRouteCost);
+//		if(swap.totalRouteCosts < totalRouteCost){
+//			routes = swap.getRoutes();
+//			totalRouteCost = swap.totalRouteCosts;
+//		}
 
 	}
 

@@ -111,8 +111,9 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 					ArrayList tempRoute = routes[j];				
 					for(int n = 0; n<tempRoute.size()+1; n++){
 						tempRoute.add(n, node);				
-						if( min >  calculateRouteCost(tempRoute) && calculateRouteCost(tempRoute) <= tMax){
-							min = calculateRouteCost(tempRoute);
+						double cost = (calculateRouteCost(tempRoute));
+						if( min >  cost && cost <= tMax){
+							min = cost;
 							position = n;
 							route = j;
 							selectedNodeToRoute = node;									
@@ -339,14 +340,16 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 	@Override
 	public void showResults() {
 		System.out.println("Results of Myopic 1b");
+		double sum = 0;
 		for (int i = 0; i < routes.length; i++) {
-			System.out.println("Route " + (i + 1));
-			System.out.println("Route " + (i + 1) + " time : "
-					+ calculateRouteCost(routes[i]));
-			System.out.println("Route " + (i + 1) + " :  0 -> "
-					+ routes[i].toString() + " -> 0");
+			sum += calculateRouteCost(routes[i]);
+			System.out.println("Route " + (i + 1) + " time : "+ calculateRouteCost(routes[i]));
+			System.out.println("Route " + (i + 1) + " :  0 -> " + routes[i].toString() + " -> 0");
+			System.out.println("Route " + (i + 1) + " is " + routes[i].size() + " nodes");
 			System.out.println();
 		}
+		System.out.println("Total : " + sum);
+		System.out.println();
 	}
 	
 	

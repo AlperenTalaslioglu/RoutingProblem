@@ -77,7 +77,7 @@ public class HeuristicMyopic1aAlgorithm extends Algorithm {
 					for (int n = 0; n < routes[r].size() + 1; n++) {
 						tempRoute = routes[r];
 						tempRoute.add(n, node);
-						double cost = calculateRouteCost(tempRoute);
+						double cost = (calculateRouteCost(tempRoute));
 						if (min > cost && cost <= tMax) {
 							min = cost;
 							tempNode = node;
@@ -285,11 +285,17 @@ public class HeuristicMyopic1aAlgorithm extends Algorithm {
 	@Override
 	public void showResults() {
 		System.out.println("Results of Myopic 1a");
+		double sum = 0;
 		for (int i = 0; i < routes.length; i++) {
+			sum += calculateRouteCost(routes[i]);
 			System.out.println("Route " + (i + 1) + " time : "+ calculateRouteCost(routes[i]));
 			System.out.println("Route " + (i + 1) + " :  0 -> " + routes[i].toString() + " -> 0");
+			System.out.println("Route " + (i + 1) + " is " + routes[i].size() + " nodes");
 			System.out.println();
 		}
+		System.out.println("Total : " + sum);
+		System.out.println();
+		
 	}
 	
 	public static double getTotalRouteCosts(){
