@@ -25,26 +25,32 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 	@Override
 	public void execute() {
 		init();
+		int i = 0;
 		while(k <= K){
 			step1();
 			step2();
 			step3();
 			step4();
+			System.out.println(i++);
 		}		
 		
 	}
 
 	private void step4() {
-		routes[(k - 1)].add(tempZ);//adding item temprarily to route
-		if (isRouteFeasible(routes[(k - 1)])) { // Checking the route
-			//If yes, insert node z' to the route. Update node z as z=z'. 
-			nodeZ = tempZ;
-			updateMATable();
-			visitedNodes.add(nodeZ);
-			
-		} else {
-			routes[(k - 1)].remove(routes[(k - 1)].size() - 1);//if not feasible, remove item from route
+		if(tempZ == 0){
 			step5();
+		}else{
+			routes[(k - 1)].add(tempZ);//adding item temprarily to route
+			if (isRouteFeasible(routes[(k - 1)])) { // Checking the route
+				//If yes, insert node z' to the route. Update node z as z=z'. 
+				nodeZ = tempZ;
+				updateMATable();
+				visitedNodes.add(nodeZ);
+				
+			} else {
+				routes[(k - 1)].remove(routes[(k - 1)].size() - 1);//if not feasible, remove item from route
+				step5();
+			}
 		}
 	}
 

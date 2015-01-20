@@ -8,30 +8,30 @@ public class Router {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		
-		/**
-		 * MYOPIC 1A
-		 */
-		HeuristicMyopic1aAlgorithm myopic1a = new HeuristicMyopic1aAlgorithm();
-		myopic1a.getData(new FileReader("data.txt"));
-		myopic1a.execute();
-		myopic1a.showResults();
-
-		/**
-		 * MYOPIC 1B
-		 */
-		HeuristicMyopic1bAlgorithm myopic1b = new HeuristicMyopic1bAlgorithm();
-		myopic1b.getData(new FileReader("data.txt"));
-		myopic1b.execute();
-		myopic1b.showResults();
-
-
-		/**
-		 * MYOPIC 1C
-		 */
-		HeuristicMyopic1cAlgorithm myopic1c = new HeuristicMyopic1cAlgorithm();
-		myopic1c.getData(new FileReader("data.txt"));
-		myopic1c.execute();
-		myopic1c.showResults();
+//		/**
+//		 * MYOPIC 1A
+//		 */
+//		HeuristicMyopic1aAlgorithm myopic1a = new HeuristicMyopic1aAlgorithm();
+//		myopic1a.getData(new FileReader("data.txt"));
+//		myopic1a.execute();
+//		myopic1a.showResults();
+//
+//		/**
+//		 * MYOPIC 1B
+//		 */
+//		HeuristicMyopic1bAlgorithm myopic1b = new HeuristicMyopic1bAlgorithm();
+//		myopic1b.getData(new FileReader("data.txt"));
+//		myopic1b.execute();
+//		myopic1b.showResults();
+//
+//
+//		/**
+//		 * MYOPIC 1C
+//		 */
+//		HeuristicMyopic1cAlgorithm myopic1c = new HeuristicMyopic1cAlgorithm();
+//		myopic1c.getData(new FileReader("data.txt"));
+//		myopic1c.execute();
+//		myopic1c.showResults();
 
 		
 		/**
