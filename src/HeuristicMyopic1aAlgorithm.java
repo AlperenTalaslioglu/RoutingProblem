@@ -214,7 +214,7 @@ public class HeuristicMyopic1aAlgorithm extends Algorithm {
 	 * @return
 	 */
 	private double calculateDistanceBetween(int to, int from) {
-		return distances[to][from];
+		return timeMatrix[to][from];
 	}
 
 	/**
@@ -269,14 +269,12 @@ public class HeuristicMyopic1aAlgorithm extends Algorithm {
 	private double calculateRouteCost(ArrayList route) {
 		double cost = 0;
 		double firstEdge = calculateDistanceBetween(0, (int) route.get(0));
-		double lastEdge = calculateDistanceBetween(
-				(int) route.get(route.size() - 1), 0);
+		double lastEdge = calculateDistanceBetween((int) route.get(route.size() - 1), 0);
 		cost = firstEdge + lastEdge;
 
 		if (route.size() > 1) {
 			for (int i = 0; i < route.size() - 1; i++) {
-				cost += calculateDistanceBetween((int) route.get(i),
-						(int) route.get(i + 1));
+				cost += calculateDistanceBetween((int) route.get(i),(int) route.get(i + 1));
 			}
 		}
 		return cost;

@@ -25,23 +25,23 @@ public class Router {
 //		myopic1b.showResults();
 //
 //
-//		/**
-//		 * MYOPIC 1C
-//		 */
-//		HeuristicMyopic1cAlgorithm myopic1c = new HeuristicMyopic1cAlgorithm();
-//		myopic1c.getData(new FileReader("data.txt"));
-//		myopic1c.execute();
-//		myopic1c.showResults();
+		/**
+		 * MYOPIC 1C
+		 */
+		CopyOfHeuristicMyopic1cAlgorithm myopic1c = new CopyOfHeuristicMyopic1cAlgorithm();
+		myopic1c.getData(new CopyOfFileReader("data.txt"));
+		myopic1c.execute();
+		myopic1c.showResults();
 
 		
-		/**
-		 * MYOPIC 2
-		 */
-		HeuristicMyopic2Algorithm myopic2 = new HeuristicMyopic2Algorithm();
-		myopic2.getData(new FileReader("data.txt"));
-		myopic2.execute();
-		myopic2.showResults();
-		
+//		/**
+//		 * MYOPIC 2
+//		 */
+//		HeuristicMyopic2Algorithm myopic2 = new HeuristicMyopic2Algorithm();
+//		myopic2.getData(new FileReader("data.txt"));
+//		myopic2.execute();
+//		myopic2.showResults();
+//		
 		
 		
 //		// IMPROVEMENTS

@@ -2,14 +2,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class HeuristicMyopic1bAlgorithm extends Algorithm {
+public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 	private HashSet[] reachableNodesByAttributesTable;
 	private ArrayList[] routes;
 	private double nodeAtrributeTable[][];
 	private ArrayList chosenAttributes;
 	private ArrayList setA;
-	public 	static double totalRouteCosts;
+	public static double totalRouteCosts;
 
+	
+	public void getData(CopyOfFileReader copyOfFileReader) {
+		this.numberOfVehicles = copyOfFileReader.getNumberOfVehicles();
+		this.tMax = copyOfFileReader.getMaxTimeOfVehicle();
+		this.attributes = copyOfFileReader.getAttributes();
+		this.numberOfNodes = copyOfFileReader.getAttributes().length;
+		this.numberOfAttributes = copyOfFileReader.getNumberOfAttributes();
+		this.timeMatrix = copyOfFileReader.getTimeMatrix();		
+	}
+	
+	
+	
 
 	@Override
 	public void execute() {
@@ -109,7 +121,7 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 				for (int j = 0; j < routes.length; j++) {
 					ArrayList tempRoute = routes[j];				
 					for(int n = 0; n<tempRoute.size()+1; n++){
-						tempRoute.add(n, node);				
+						tempRoute.add(n, node);	
 						double cost = (calculateRouteCost(tempRoute));
 						if( min >  cost && cost <= tMax){
 							min = cost;
@@ -137,6 +149,37 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 	}
 
 	private void chooseSetOfAttributes() {
+		//LOWEST 	
+		int tempSelected = findMinimum();		
+		chosenAttributes.add(tempSelected);
+		for (int i = 0; i < numberOfAttributes; i++) {
+			if(i == tempSelected) {continue;} 
+			else if(nodeAtrributeTable[2][tempSelected] == nodeAtrributeTable[2][i]) {chosenAttributes.add(i);}
+		}
+
+		//SECOND LOWEST
+		int secondMinimum = findSecondMinimum(tempSelected);
+		chosenAttributes.add(secondMinimum);
+		for (int i = 0; i < numberOfAttributes; i++) {
+			if(i == secondMinimum) {continue;} 
+			else if(nodeAtrributeTable[2][secondMinimum] == nodeAtrributeTable[2][i]) {chosenAttributes.add(i);}
+		}		
+	}
+
+	private int findSecondMinimum(int minimum) {
+		int temp = 0;
+		double min = nodeAtrributeTable[2][0];
+
+		for (int i = 1; i < numberOfAttributes; i++) {
+			if (min > nodeAtrributeTable[2][i] && i != minimum) {
+				temp = i;
+				min = nodeAtrributeTable[2][i];
+			}
+		}
+		return temp;
+	}
+
+	private int findMinimum() {
 		int tempSelected = 0;
 		double min = nodeAtrributeTable[2][0];
 
@@ -146,16 +189,7 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 				min = nodeAtrributeTable[2][i];
 			}
 		}
-
-		chosenAttributes.add(tempSelected);
-
-		for (int i = 0; i < numberOfAttributes; i++) {
-			if (i == tempSelected) {
-				continue;
-			} else if (nodeAtrributeTable[2][tempSelected] == nodeAtrributeTable[2][i]) {
-				chosenAttributes.add(i);
-			}
-		}
+		return tempSelected;
 	}
 
 	/**
@@ -338,18 +372,100 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 
 	@Override
 	public void showResults() {
-		System.out.println("Results of Myopic 1b");
+		System.out.println("Results of Myopic 1c");
+		System.out.println();
+				
+		System.out.println("K : " + numberOfVehicles);
+		System.out.println("Tmax : " + tMax);
 		double sum = 0;
+		int visitedNodes = 0;
+		double[] routeLengths = new double[routes.length];
+		double[] routeCosts = new double[routes.length];		
 		for (int i = 0; i < routes.length; i++) {
 			sum += calculateRouteCost(routes[i]);
-			System.out.println("Route " + (i + 1) + " time : "+ calculateRouteCost(routes[i]));
-			System.out.println("Route " + (i + 1) + " :  0 -> " + routes[i].toString() + " -> 0");
-			System.out.println("Route " + (i + 1) + " is " + routes[i].size() + " nodes");
-			System.out.println();
+			visitedNodes += routes[i].size();
+			routeLengths[i] = routes[i].size();
+			routeCosts[i] = calculateRouteCost(routes[i]);
+//			System.out.println("Route " + (i + 1) + " time : "+ calculateRouteCost(routes[i]));
+			System.out.println("Route " + (i + 1) + " :  " + routes[i].toString());
+//			System.out.println("Route " + (i + 1) + " is " + routes[i].size() + " nodes");
 		}
-		System.out.println("Total : " + sum);
-		System.out.println();
+		System.out.println("Avg : " + findAverage(routeLengths));
+		System.out.println("Max : " +  findMax(routeLengths));
+		System.out.println("Min : " +  findMin(routeLengths));
+		System.out.println("Total number of nodes visited : " + (int)visitedNodes);
+		System.out.println("Number of routes : " + routes.length);
+		for(int i = 0; i<routeCosts.length; i++){
+			System.out.println("r"+(i+1) + " : " + routeCosts[i]);
+		}
+		System.out.println("Avg : " + findAverage(routeCosts));
+		System.out.println("Max : " +  findMax(routeCosts));
+		System.out.println("Min : " +  findMin(routeCosts));
+		System.out.println("Total  : " + sum);
+		
+		System.out.println("Attributes");
+		System.out.println(getSumOfAttributes());
+
+		
+		
 	}
 	
+	private String getSumOfAttributes() {
+		int[] sumOfAttributes = new int[numberOfAttributes];
+		for(int i = 0; i<routes.length; i++){
+			for(int j = 0; j<routes[i].size(); j++){				
+				for(int k = 0; k<numberOfAttributes; k++){					
+					if(attributes[(int) routes[i].get(j)][k] == 1){sumOfAttributes[k]++;}
+				}
+			}
+		}
+		
+		String sum = "";
+		for(int i = 0; i<sumOfAttributes.length; i++){sum += " " + sumOfAttributes[i];}
+		
+		return sum;
+	}
+
+
+
+
+	private double findMin(double[] routeLengths) {
+		double min = routeLengths[0];
+		for (int i = 1; i < routeLengths.length; i++) {
+		      if (routeLengths[i] < min) {min = routeLengths[i];}
+		}
+		return min;
+	}
+
+
+
+
+	private double findMax(double[] routeLengths) {
+		double max = routeLengths[0];
+		for (int i = 1; i < routeLengths.length; i++){
+		      if (routeLengths[i] > max){max = routeLengths[i];}
+		}
+		return max;
+	}
+
+
+
+
+	private double findAverage(double[] routeLengths) {
+		int N = routeLengths.length;
+		double sum = 0; 
+		for (int i = 0; i < N; i++){sum += routeLengths[i];}
+		return sum / N;
+	}
+
+
+
+
+	@Override
+	public ArrayList[] getRoutes() {
+		return this.routes;
+	}
+
+
 	
 }

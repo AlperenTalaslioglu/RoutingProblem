@@ -31,7 +31,6 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 			step2();
 			step3();
 			step4();
-			System.out.println(i++);
 		}		
 		
 	}
@@ -97,11 +96,11 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 	    	tempZ = (int) (items.toArray())[0];
 	    }else{
 	    	Object[] selectedNodes = items.toArray();
-	    	double min = distances[nodeZ][(int) selectedNodes[0]];
+	    	double min = timeMatrix[nodeZ][(int) selectedNodes[0]];
 			int node = (int)selectedNodes[0];
 			for (int i = 1; i < selectedNodes.length; i++) {
-				if (distances[nodeZ][(int) selectedNodes[i]] < min) {
-					min = distances[nodeZ][(int)selectedNodes[i]];
+				if (timeMatrix[nodeZ][(int) selectedNodes[i]] < min) {
+					min = timeMatrix[nodeZ][(int)selectedNodes[i]];
 					node = (int)selectedNodes[0];
 				}
 			}
@@ -136,9 +135,9 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 			double smallest = Double.MAX_VALUE;
 			int node = 0;			         
 			
-			for(int i = 0; i<distances[0].length; i++){								
-				if(smallest > distances[nodeZ][i] && distances[nodeZ][i] != 0 && !items.contains(i) && !visitedNodes.contains(i)) {					
-	                smallest = distances[nodeZ][i];	
+			for(int i = 0; i<timeMatrix[0].length; i++){								
+				if(smallest > timeMatrix[nodeZ][i] && timeMatrix[nodeZ][i] != 0 && !items.contains(i) && !visitedNodes.contains(i)) {					
+	                smallest = timeMatrix[nodeZ][i];	
 	                node = i;
 	            }				
 			}
@@ -191,11 +190,11 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 	private double calculateRouteCost(ArrayList route) {
 		double cost = 0;
 		if (route.size() > 1) {
-			double firstEdge = distances[0][(int) route.get(0)];
-			double lastEdge = distances[(int) route.get(route.size() - 1)][0];
+			double firstEdge = timeMatrix[0][(int) route.get(0)];
+			double lastEdge = timeMatrix[(int) route.get(route.size() - 1)][0];
 			cost = firstEdge + lastEdge;
 			for (int i = 0; i < route.size() - 1; i++) {
-				cost += distances[(int) route.get(i)][(int) route.get(i + 1)];
+				cost += timeMatrix[(int) route.get(i)][(int) route.get(i + 1)];
 			}
 		}
 		return cost;

@@ -58,8 +58,8 @@ public class FileReader {
 	}
 
 	private void generateTimeMatrix() {
-		for (int i = 0; i < numberOfNodes; i++) {
-			for (int j = 0; j < numberOfNodes; j++) {
+		for (int i = 0; i < numberOfNodes+1; i++) {
+			for (int j = 0; j < numberOfNodes+1; j++) {
 				timeMatrix[i][j] = calculateDistanceBetween(i, j) / 30;
 			}
 		}		

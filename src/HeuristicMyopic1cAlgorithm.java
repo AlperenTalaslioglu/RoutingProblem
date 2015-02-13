@@ -290,7 +290,7 @@ public class HeuristicMyopic1cAlgorithm extends Algorithm {
 	 * @return
 	 */
 	private double calculateDistanceBetween(int to, int from) {
-		return distances[to][from];
+		return timeMatrix[to][from];
 	}
 
 	/**
