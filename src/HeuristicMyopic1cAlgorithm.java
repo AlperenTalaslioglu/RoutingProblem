@@ -371,11 +371,5 @@ public class HeuristicMyopic1cAlgorithm extends Algorithm {
 		}
 		System.out.println("Total : " + sum);
 		System.out.println();
-	}
-	
-	@Override
-	public ArrayList[] getRoutes() {
-		return this.routes;
-	}
-	
+	}	
 }

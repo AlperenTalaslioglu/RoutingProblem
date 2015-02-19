@@ -405,8 +405,6 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 		
 		System.out.println("Attributes");
 		System.out.println(getSumOfAttributes());
-
-		
 		
 	}
 	
@@ -426,9 +424,6 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 		return sum;
 	}
 
-
-
-
 	private double findMin(double[] routeLengths) {
 		double min = routeLengths[0];
 		for (int i = 1; i < routeLengths.length; i++) {
@@ -436,9 +431,6 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 		}
 		return min;
 	}
-
-
-
 
 	private double findMax(double[] routeLengths) {
 		double max = routeLengths[0];
@@ -448,24 +440,10 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 		return max;
 	}
 
-
-
-
 	private double findAverage(double[] routeLengths) {
 		int N = routeLengths.length;
 		double sum = 0; 
 		for (int i = 0; i < N; i++){sum += routeLengths[i];}
 		return sum / N;
-	}
-
-
-
-
-	@Override
-	public ArrayList[] getRoutes() {
-		return this.routes;
-	}
-
-
-	
+	}	
 }

@@ -199,11 +199,6 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 		}
 		return cost;
 	}
-
-	@Override
-	public ArrayList[] getRoutes() {
-		return this.routes;
-	}
 	
 	/*
 	 * Checking the route's feasibility by tMax 

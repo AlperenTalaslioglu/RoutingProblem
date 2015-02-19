@@ -301,11 +301,6 @@ public class SwapAlgorithm extends Algorithm{
 		return Math.sqrt(Math.pow((coordinates[to][0] - coordinates[from][0]),
 				2) + +Math.pow((coordinates[to][1] - coordinates[from][1]), 2));
 	}
-	
-	@Override
-	public ArrayList[] getRoutes() {
-		return this.routes;
-	}
 
 	@Override
 	public void showResults() {
