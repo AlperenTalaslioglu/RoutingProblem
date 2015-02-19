@@ -2,7 +2,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class HeuristicMyopic2Algorithm extends Algorithm {
+/**
+ * 
+ * This myopic2 is edited for 
+ * new Van data
+ * 
+ * This myopic2 is only working 
+ * with this data
+ *
+ */
+
+public class CopyOfHeuristicMyopic2Algorithm extends Algorithm {
 	private int nodeZ;
 	private ArrayList[] routes;
 	private int K;
@@ -15,8 +25,17 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 	private ArrayList considerable3Nodes;
 	private int tempZ;
 		
+	
+	public void getData(CopyOfFileReader copyOfFileReader) {
+		this.numberOfVehicles = copyOfFileReader.getNumberOfVehicles();
+		this.tMax = copyOfFileReader.getMaxTimeOfVehicle();
+		this.attributes = copyOfFileReader.getAttributes();
+		this.numberOfNodes = copyOfFileReader.getAttributes().length;
+		this.numberOfAttributes = copyOfFileReader.getNumberOfAttributes();
+		this.timeMatrix = copyOfFileReader.getTimeMatrix();		
+	}
 
-	public HeuristicMyopic2Algorithm() {
+	public CopyOfHeuristicMyopic2Algorithm() {
 		this.nodeZ = 0;
 		this.k = 1;
 		this.tempZ = 0;

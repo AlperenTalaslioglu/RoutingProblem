@@ -339,17 +339,72 @@ public class HeuristicMyopic1bAlgorithm extends Algorithm {
 	@Override
 	public void showResults() {
 		System.out.println("Results of Myopic 1b");
+		System.out.println();		
+		System.out.println("K : " + numberOfVehicles);
+		System.out.println("Tmax : " + tMax);
 		double sum = 0;
+		int visitedNodes = 0;
+		double[] routeLengths = new double[routes.length];
+		double[] routeCosts = new double[routes.length];		
 		for (int i = 0; i < routes.length; i++) {
 			sum += calculateRouteCost(routes[i]);
-			System.out.println("Route " + (i + 1) + " time : "+ calculateRouteCost(routes[i]));
-			System.out.println("Route " + (i + 1) + " :  0 -> " + routes[i].toString() + " -> 0");
-			System.out.println("Route " + (i + 1) + " is " + routes[i].size() + " nodes");
-			System.out.println();
+			visitedNodes += routes[i].size();
+			routeLengths[i] = routes[i].size();
+			routeCosts[i] = calculateRouteCost(routes[i]);
+			System.out.println("Route " + (i + 1) + " :  " + routes[i].toString());
 		}
-		System.out.println("Total : " + sum);
-		System.out.println();
+		System.out.println("Avg : " + findAverage(routeLengths));
+		System.out.println("Max : " +  findMax(routeLengths));
+		System.out.println("Min : " +  findMin(routeLengths));
+		System.out.println("Total number of nodes visited : " + (int)visitedNodes);
+		System.out.println("Number of routes : " + routes.length);
+		for(int i = 0; i<routeCosts.length; i++){
+			System.out.println("r"+(i+1) + " : " + routeCosts[i]);
+		}
+		System.out.println("Avg : " + findAverage(routeCosts));
+		System.out.println("Max : " +  findMax(routeCosts));
+		System.out.println("Min : " +  findMin(routeCosts));
+		System.out.println("Total  : " + sum);		
+		System.out.println("Attributes");
+		System.out.println(getSumOfAttributes());		
 	}
 	
-	
+	private String getSumOfAttributes() {
+		int[] sumOfAttributes = new int[numberOfAttributes];
+		for(int i = 0; i<routes.length; i++){
+			for(int j = 0; j<routes[i].size(); j++){				
+				for(int k = 0; k<numberOfAttributes; k++){					
+					if(attributes[(int) routes[i].get(j)][k] == 1){sumOfAttributes[k]++;}
+				}
+			}
+		}
+		
+		String sum = "";
+		for(int i = 0; i<sumOfAttributes.length; i++){sum += " " + sumOfAttributes[i];}
+		
+		return sum;
+	}
+
+	private double findMin(double[] routeLengths) {
+		double min = routeLengths[0];
+		for (int i = 1; i < routeLengths.length; i++) {
+		      if (routeLengths[i] < min) {min = routeLengths[i];}
+		}
+		return min;
+	}
+
+	private double findMax(double[] routeLengths) {
+		double max = routeLengths[0];
+		for (int i = 1; i < routeLengths.length; i++){
+		      if (routeLengths[i] > max){max = routeLengths[i];}
+		}
+		return max;
+	}
+
+	private double findAverage(double[] routeLengths) {
+		int N = routeLengths.length;
+		double sum = 0; 
+		for (int i = 0; i < N; i++){sum += routeLengths[i];}
+		return sum / N;
+	}
 }

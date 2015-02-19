@@ -2,6 +2,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
+/**
+ * 
+ * This myopic1c is edited for 
+ * new Van data
+ * 
+ * This myopic1c is only working 
+ * with this data
+ *
+ */
+
 public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 	private HashSet[] reachableNodesByAttributesTable;
 	private ArrayList[] routes;
@@ -20,9 +30,6 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 		this.timeMatrix = copyOfFileReader.getTimeMatrix();		
 	}
 	
-	
-	
-
 	@Override
 	public void execute() {
 		init();
@@ -102,6 +109,7 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 	/**
 	 * Execution of algorithm after initial steps completed
 	 */
+	@SuppressWarnings("unchecked")
 	private void executeAlgorithm() {
 
 		int position;
@@ -148,6 +156,7 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 		}	
 	}
 
+	@SuppressWarnings("unchecked")
 	private void chooseSetOfAttributes() {
 		//LOWEST 	
 		int tempSelected = findMinimum();		
@@ -244,6 +253,7 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 	 * @param id
 	 * @return true/false
 	 */
+	@SuppressWarnings("unused")
 	private boolean isVisited(int id) {
 		for (int i = 0; i < this.reachableNodesByAttributesTable.length; i++) {
 			if (this.reachableNodesByAttributesTable[i].contains(id)) {
@@ -257,6 +267,7 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 	 * This method generates sets of nodes that are categorized by their
 	 * attributes
 	 */
+	@SuppressWarnings("unchecked")
 	private void generateReachableNodeSetsbyAttributes() {
 		// initialize the table by sets
 		for (int i = 0; i < this.reachableNodesByAttributesTable.length; i++) {
@@ -310,6 +321,7 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 	 * 
 	 * @return selected attribute
 	 */
+	@SuppressWarnings("unused")
 	private int chooseNewAttribute() {
 		int tempSelected = 0;
 		double min = nodeAtrributeTable[2][0];
