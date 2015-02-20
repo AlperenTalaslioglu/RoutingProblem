@@ -25,9 +25,17 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 		this.numberOfVehicles = copyOfFileReader.getNumberOfVehicles();
 		this.tMax = copyOfFileReader.getMaxTimeOfVehicle();
 		this.attributes = copyOfFileReader.getAttributes();
-		this.numberOfNodes = copyOfFileReader.getAttributes().length;
+		this.numberOfNodes = copyOfFileReader.getNumberOfNodes();
 		this.numberOfAttributes = copyOfFileReader.getNumberOfAttributes();
 		this.timeMatrix = copyOfFileReader.getTimeMatrix();		
+		
+		for(int i = 0; i<numberOfNodes+1; i++){
+			for(int j = 0; j<numberOfAttributes; j++){
+				System.out.print(attributes[i][j] + " ");
+			}
+			System.out.println();
+		}
+		
 	}
 	
 	@Override
@@ -398,7 +406,6 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 			visitedNodes += routes[i].size();
 			routeLengths[i] = routes[i].size();
 			routeCosts[i] = calculateRouteCost(routes[i]);
-//			System.out.println("Route " + (i + 1) + " time : "+ calculateRouteCost(routes[i]));
 			System.out.println("Route " + (i + 1) + " :  " + routes[i].toString());
 //			System.out.println("Route " + (i + 1) + " is " + routes[i].size() + " nodes");
 		}

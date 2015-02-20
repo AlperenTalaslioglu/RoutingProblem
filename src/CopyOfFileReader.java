@@ -33,7 +33,7 @@ public class CopyOfFileReader {
 		numberOfNodes = fileScanner.nextInt();
 		numberOfAttributes = fileScanner.nextInt();
 		
-		attributes = new int[numberOfNodes+1][numberOfAttributes+1];		
+		attributes = new int[numberOfNodes+1][numberOfAttributes];		
 
 		int itemIndex = 0;
 		while (fileScanner.hasNextInt()) {			
@@ -44,7 +44,7 @@ public class CopyOfFileReader {
 				attributes[itemIndex][i] = fileScanner.nextInt();
 			}
 			
-			if(itemIndex == numberOfNodes-1){break;}
+			if(itemIndex == numberOfNodes){break;}
 			itemIndex++;
 		}		
 				
@@ -56,7 +56,8 @@ public class CopyOfFileReader {
 			// Second getting the distances of current indexed item and putting
 			// to array
 			for (int i = 0; i < numberOfNodes+1; i++) {
-				timeMatrix[timeMatrixIndex][i] = (fileScanner.nextInt()) + 3600;
+//				timeMatrix[timeMatrixIndex][i] = (fileScanner.nextInt()) + 3600;
+				timeMatrix[timeMatrixIndex][i] = (fileScanner.nextInt());
 			}
 
 			if(timeMatrixIndex == numberOfNodes){break;}
@@ -67,6 +68,8 @@ public class CopyOfFileReader {
 	public double[][] getTimeMatrix(){return timeMatrix;}
 
 	public int getNumberOfVehicles() {return numberOfVehicles;}
+	
+	public int getNumberOfNodes(){return numberOfNodes;}
 
 	public int getMaxTimeOfVehicle() {return maxTimeOfVehicle;}
 
