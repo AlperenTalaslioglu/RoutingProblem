@@ -27,15 +27,7 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 		this.attributes = copyOfFileReader.getAttributes();
 		this.numberOfNodes = copyOfFileReader.getNumberOfNodes();
 		this.numberOfAttributes = copyOfFileReader.getNumberOfAttributes();
-		this.timeMatrix = copyOfFileReader.getTimeMatrix();		
-		
-		for(int i = 0; i<numberOfNodes+1; i++){
-			for(int j = 0; j<numberOfAttributes; j++){
-				System.out.print(attributes[i][j] + " ");
-			}
-			System.out.println();
-		}
-		
+		this.timeMatrix = copyOfFileReader.getTimeMatrix();				
 	}
 	
 	@Override

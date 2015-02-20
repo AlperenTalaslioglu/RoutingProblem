@@ -56,8 +56,7 @@ public class CopyOfFileReader {
 			// Second getting the distances of current indexed item and putting
 			// to array
 			for (int i = 0; i < numberOfNodes+1; i++) {
-//				timeMatrix[timeMatrixIndex][i] = (fileScanner.nextInt()) + 3600;
-				timeMatrix[timeMatrixIndex][i] = (fileScanner.nextInt());
+				timeMatrix[timeMatrixIndex][i] = (fileScanner.nextInt()) + 3600;
 			}
 
 			if(timeMatrixIndex == numberOfNodes){break;}
