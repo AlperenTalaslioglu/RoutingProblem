@@ -1,3 +1,5 @@
+import gui.MainFrame;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -282,6 +284,18 @@ public class CopyOfHeuristicMyopic2Algorithm extends Algorithm {
 	private boolean isRouteFeasible(ArrayList route) {
 		double routeTime = calculateRouteCost(route);
 		return (routeTime <= tMax);
+	}
+	
+	public void drawGUI() {
+		new MainFrame(routes,coordinates);		
+	}
+
+	public ArrayList[] getRoutes() {
+		return routes;
+	}
+
+	public double[][] getDistances() {
+		return distances;
 	}
 
 }

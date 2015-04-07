@@ -1,3 +1,5 @@
+import gui.MainFrame;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -457,4 +459,16 @@ public class CopyOfHeuristicMyopic1cAlgorithm extends Algorithm {
 		for (int i = 0; i < N; i++){sum += routeLengths[i];}
 		return sum / N;
 	}	
+	
+	public void drawGUI() {
+		new MainFrame(routes,coordinates);		
+	}
+
+	public ArrayList[] getRoutes() {
+		return routes;
+	}
+
+	public double[][] getDistances() {
+		return distances;
+	}
 }

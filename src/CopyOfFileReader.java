@@ -20,6 +20,7 @@ public class CopyOfFileReader {
 	private int numberOfAttributes;
 	private int[][] attributes;
 	private double[][] timeMatrix;
+	private double[][] distances;
 
 	public CopyOfFileReader(String fileName) throws FileNotFoundException {
 		this.fileName = fileName;
@@ -33,7 +34,8 @@ public class CopyOfFileReader {
 		numberOfNodes = fileScanner.nextInt();
 		numberOfAttributes = fileScanner.nextInt();
 		
-		attributes = new int[numberOfNodes+1][numberOfAttributes];		
+		attributes = new int[numberOfNodes+1][numberOfAttributes];	
+		distances = new double[numberOfNodes+1][numberOfNodes+1];
 
 		int itemIndex = 0;
 		while (fileScanner.hasNextInt()) {			

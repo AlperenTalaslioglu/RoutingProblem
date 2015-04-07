@@ -1,3 +1,5 @@
+import gui.MainFrame;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -265,4 +267,16 @@ public class HeuristicMyopic2Algorithm extends Algorithm {
 		return (routeTime <= tMax);
 	}
 
+	public void drawGUI() {
+		new MainFrame(routes,coordinates);		
+	}
+
+	public ArrayList[] getRoutes() {
+		return routes;
+	}
+
+	public double[][] getDistances() {
+		return distances;
+	}
+	
 }
