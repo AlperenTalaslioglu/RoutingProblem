@@ -30,7 +30,7 @@ public class Router {
 //		 myopic1b.getData(new FileReader("data.txt"));
 //		 myopic1b.execute();
 //		 myopic1b.showResults();
-//		 myopic1b.drawGUI();
+//		 myopic1b.drawGUI(0);
 //		 createBuffer(myopic1b.getRoutes(), myopic1b.getDistances(), myopic1b.numberOfNodes, myopic1b.numberOfVehicles);
 
 
@@ -44,7 +44,7 @@ public class Router {
 //		 myopic1c.getData(new FileReader("data.txt"));
 //		 myopic1c.execute();
 //		 myopic1c.showResults();
-//		 myopic1c.drawGUI();
+//		 myopic1c.drawGUI(0);
 //		 createBuffer(myopic1c.getRoutes(), myopic1c.getDistances(), myopic1c.numberOfNodes, myopic1c.numberOfVehicles);
 
 
@@ -55,7 +55,7 @@ public class Router {
 //		 myopic2.getData(new FileReader("data.txt"));
 //		 myopic2.execute();
 //		 myopic2.showResults();
-//		 myopic2.drawGUI();
+//		 myopic2.drawGUI(0);
 //		 createBuffer(myopic2.getRoutes(), myopic2.getDistances(), myopic2.numberOfNodes, myopic2.numberOfVehicles);
 		
 
