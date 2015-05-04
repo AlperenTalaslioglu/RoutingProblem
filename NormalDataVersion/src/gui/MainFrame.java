@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 public class MainFrame extends JFrame {
 	private MainPanel mainPanel;
 	
-	public MainFrame(ArrayList[] routes,int[][] coordinates){		
-		mainPanel = new MainPanel(routes,coordinates);
+	public MainFrame(ArrayList[] routes,int[][] coordinates, int i){		
+		mainPanel = new MainPanel(routes,coordinates,i);
 		this.add(mainPanel);			
 		setTitle("Route GUI");
 		setResizable(false);

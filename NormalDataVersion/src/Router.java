@@ -18,7 +18,7 @@ public class Router {
 		myopic1a.getData(new FileReader("data.txt"));
 		myopic1a.execute();
 		myopic1a.showResults();
-		myopic1a.drawGUI();
+		myopic1a.drawGUI(1);
 		createBuffer(myopic1a.getRoutes(), myopic1a.getDistances(), myopic1a.numberOfNodes, myopic1a.numberOfVehicles);
 
 		

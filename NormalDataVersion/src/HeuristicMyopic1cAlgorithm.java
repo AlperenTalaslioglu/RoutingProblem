@@ -432,10 +432,9 @@ public class HeuristicMyopic1cAlgorithm extends Algorithm {
 		return sum / N;
 	}
 	
-	public void drawGUI() {
-		new MainFrame(routes,coordinates);		
+	public void drawGUI(int i) {
+		new MainFrame(routes,coordinates,i);		
 	}
-
 	public ArrayList[] getRoutes() {
 		return routes;
 	}
